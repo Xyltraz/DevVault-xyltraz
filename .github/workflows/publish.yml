@@ -1,0 +1,30 @@
+name: Publish DevVault
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Installer les outils
+        run: python -m pip install --upgrade build
+
+      - name: Construire le package
+        run: python -m build
+
+      - name: Publier sur PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1 
