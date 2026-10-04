@@ -1,0 +1,10 @@
+README.md
+main.py
+pyproject.toml
+devvault/__init__.py
+devvault/keys.py
+devvault.egg-info/PKG-INFO
+devvault.egg-info/SOURCES.txt
+devvault.egg-info/dependency_links.txt
+devvault.egg-info/entry_points.txt
+devvault.egg-info/top_level.txt

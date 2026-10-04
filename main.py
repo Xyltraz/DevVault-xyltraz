@@ -1,6 +1,9 @@
 import sys
 from pathlib import Path
 
+from devvault.keys import get
+
+
 DEVVAULT_DIR = Path.home() / ".devvault"
 ENV_FILE = DEVVAULT_DIR / ".env"
 
@@ -25,16 +28,6 @@ def load_keys():
     return keys
 
 
-def get_key(name):
-    """Récupère une clé."""
-    keys = load_keys()
-
-    if name not in keys:
-        raise KeyError(f"La clé '{name}' n'existe pas.")
-
-    return keys[name]
-
-
 def set_key(name, value):
     """Ajoute ou modifie une clé."""
     DEVVAULT_DIR.mkdir(parents=True, exist_ok=True)
@@ -56,9 +49,34 @@ def delete_key(name):
 
     del keys[name]
 
+    DEVVAULT_DIR.mkdir(parents=True, exist_ok=True)
+
     with ENV_FILE.open("w", encoding="utf-8") as file:
         for key, value in keys.items():
             file.write(f"{key}={value}\n")
+
+
+def mask_value(value):
+    """Masque une valeur sensible."""
+    if len(value) <= 4:
+        return "*" * len(value)
+
+    return value[:2] + "*" * (len(value) - 4) + value[-2:]
+
+
+def show_keys():
+    """Affiche les clés sans révéler complètement leurs valeurs."""
+    keys = load_keys()
+
+    if not keys:
+        print("Aucune clé enregistrée.")
+        return
+
+    print("Clés enregistrées :")
+    print()
+
+    for key, value in keys.items():
+        print(f"  {key} = {mask_value(value)}")
 
 
 def show_help():
@@ -84,6 +102,7 @@ def main():
 
     if command == "set":
         if len(sys.argv) < 4:
+            print("Erreur : arguments manquants.")
             print("Usage : python main.py set <clé> <valeur>")
             sys.exit(1)
 
@@ -91,47 +110,41 @@ def main():
         value = sys.argv[3]
 
         set_key(name, value)
-        print(f"✓ Clé '{name}' enregistrée.")
+        print(f"OK : clé '{name}' enregistrée.")
 
     elif command == "get":
         if len(sys.argv) < 3:
+            print("Erreur : clé manquante.")
             print("Usage : python main.py get <clé>")
             sys.exit(1)
 
         try:
-            print(get_key(sys.argv[2]))
+            print(get(sys.argv[2]))
         except KeyError as error:
-            print(f"✗ {error}")
+            print(f"Erreur : {error}")
             sys.exit(1)
 
     elif command in ("list", "keys"):
-        keys = load_keys()
-
-        if not keys:
-            print("Aucune clé enregistrée.")
-        else:
-            print("Clés enregistrées :")
-
-            for key in keys:
-                print(f"  - {key}")
+        show_keys()
 
     elif command == "delete":
         if len(sys.argv) < 3:
+            print("Erreur : clé manquante.")
             print("Usage : python main.py delete <clé>")
             sys.exit(1)
 
         try:
             delete_key(sys.argv[2])
-            print(f"✓ Clé '{sys.argv[2]}' supprimée.")
+            print(f"OK : clé '{sys.argv[2]}' supprimée.")
         except KeyError as error:
-            print(f"✗ {error}")
+            print(f"Erreur : {error}")
             sys.exit(1)
 
     elif command == "help":
         show_help()
 
     else:
-        print(f"✗ Commande inconnue : {command}")
+        print(f"Erreur : commande inconnue : {command}")
         print("Utilise 'python main.py help' pour voir les commandes.")
         sys.exit(1)
 

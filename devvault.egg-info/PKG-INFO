@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: devvault
+Version: 1.0.0
+Summary: A lightweight local environment variable manager for developers
+Author: Xyltraz
+License: MIT
+Project-URL: Homepage, https://github.com/Xyltraz/devvault
+Project-URL: Repository, https://github.com/Xyltraz/devvault
+Keywords: env,environment,secrets,developer-tools,cli
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Utilities
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+
+# DevVault
+
+DevVault is a lightweight local environment variable manager for developers.
+
+It provides:
+
+- A command-line interface
+- A Python API
+- A central local `.env` vault
+- Masked secret listing
+- Simple secret management
+
+## Installation
+
+```bash
+pip install devvault
