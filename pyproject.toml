@@ -30,8 +30,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Xyltraz/devvault"
-Repository = "https://github.com/Xyltraz/devvault"
+Homepage = "https://github.com/Xyltraz/DevVault"
+Repository = "https://github.com/Xyltraz/DevVault"
 
 [project.scripts]
 devvault = "main:main"

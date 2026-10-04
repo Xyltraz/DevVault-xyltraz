@@ -1,0 +1,10 @@
+README.md
+main.py
+pyproject.toml
+devvault/__init__.py
+devvault/keys.py
+devvault_xyltraz.egg-info/PKG-INFO
+devvault_xyltraz.egg-info/SOURCES.txt
+devvault_xyltraz.egg-info/dependency_links.txt
+devvault_xyltraz.egg-info/entry_points.txt
+devvault_xyltraz.egg-info/top_level.txt
