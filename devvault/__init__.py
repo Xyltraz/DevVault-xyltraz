@@ -1,9 +1,4 @@
-from .keys import get, keys
+"""DevVault: a small local key/value vault exposed as a Python library."""
+from . import keys
 
-
-__version__ = "1.0.0"
-
-__all__ = [
-    "get",
-    "keys",
-]
+__all__ = ["keys"]

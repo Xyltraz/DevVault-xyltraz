@@ -1,2 +1,2 @@
 [console_scripts]
-devvault = main:main
+devvault = devvault_cli:main

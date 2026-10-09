@@ -1,2 +1,2 @@
-devvault
-main
+DevVault
+devvault_cli

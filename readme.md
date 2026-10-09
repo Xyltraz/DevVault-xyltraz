@@ -1,16 +1,57 @@
 # DevVault
 
-DevVault is a lightweight local environment variable manager for developers.
+DevVault est une petite bibliothèque Python et une commande CLI pour conserver des paires `NOM=VALEUR` dans un fichier `.env` local.
 
-It provides:
+## Installation en développement
 
-- A command-line interface
-- A Python API
-- A central local `.env` vault
-- Masked secret listing
-- Simple secret management
-
-## Installation
+Dans le dossier du projet :
 
 ```bash
-pip install devvault
+python -m pip install -e .
+```
+
+## Commandes
+
+```bash
+devvault add DISCORD_TOKEN "ma valeur secrète"
+devvault list
+devvault show DISCORD_TOKEN
+devvault remove DISCORD_TOKEN
+devvault --change-dir "F:\dev\secrets"
+devvault help
+devvault ?
+```
+
+`list` n'affiche que les noms des clés. `show` affiche explicitement la valeur demandée.
+
+Le chemin choisi par `--change-dir` est mémorisé dans `%USERPROFILE%\.devvault\config.json` (Windows) ou `~/.devvault/config.json` (Linux/macOS). Le fichier `.env` est créé dans le dossier sélectionné.
+
+## Utilisation Python
+
+```python
+from DevVault import keys
+
+# Dossier courant (sans le nom .env)
+print(keys.dir())
+
+# Changer le dossier de stockage, avec persistance
+keys.dir(r"F:\dev\secrets")
+
+# Ajouter / lire / supprimer une clé
+keys.add("DISCORD_TOKEN", "ma valeur secrète")
+token = keys.get("DISCORD_TOKEN")
+keys.remove("DISCORD_TOKEN")
+```
+
+`keys.get("NOM")` renvoie `None` si la clé n'existe pas. Tu peux fournir une valeur par défaut : `keys.get("NOM", "valeur-par-defaut")`.
+
+## Stockage et sécurité
+
+- Le fichier `.env` est local et ne doit pas être publié sur GitHub.
+- `list` n'affiche jamais les valeurs.
+- Les clés et valeurs sont encodées pour conserver les espaces, guillemets et caractères spéciaux.
+- DevVault ne chiffre pas le fichier `.env`. Protège le compte Windows et ne partage jamais ce fichier.
+
+## Publier sur PyPI
+
+La version est actuellement `2.0.0`. Vérifie les tests et le nom du paquet avant publication. Publier une nouvelle version ne remplace pas automatiquement une version déjà publiée.
